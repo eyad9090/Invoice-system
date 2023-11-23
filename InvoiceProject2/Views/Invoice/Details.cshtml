@@ -1,0 +1,57 @@
+﻿@model InvoiceProject2.Dtos.InvoiceDetails
+@{
+    ViewBag.Title = "Details";
+}
+<br />
+<h2>Customer Invoice</h2>
+<br />
+@Html.ActionLink("Export pdf", "Reports", new { ReprotType = "PDF", id = Model.Invoice.InvoiceId })|
+@Html.ActionLink("Export Word", "Reports", new { ReprotType = "Word", id = Model.Invoice.InvoiceId })
+<br />
+<br />
+<div form-group>
+    <br />
+    @Html.LabelFor(i => i.Invoice.Customer)
+    @Html.TextBoxFor(i => i.Invoice.Customer, new { @class = "form-control", @readonly = "true" })
+
+    @Html.LabelFor(i => i.Invoice.InvoiceDate)
+    @Html.TextBoxFor(i => i.Invoice.InvoiceDate, "{0:d MMM yyyy}", new { @class = "form-control", @readonly = "true" })
+    @Html.LabelFor(i => i.Invoice.PaymentMethod)
+    @{
+        if (Model.Invoice.PaymentMethod == true)
+        {
+            <input type="text" id="PaymentMethod" value="Credit" class="form-control" readonly />
+        }
+        else
+        {
+            <input type="text" id="PaymentMethod" value="Cash" class="form-control" readonly />
+        }
+    }
+    @Html.LabelFor(i => i.Invoice.Description)
+    @Html.TextBoxFor(i => i.Invoice.Description, new { @class = "form-control", @readonly = "true" })
+    <h2>Items</h2>
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Item Price</th>
+        </tr>
+
+        @{
+            double total = 0;
+            foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.ItemName</td>
+                    <td>@item.Price</td>
+                    <td>@item.Qty</td>
+                    <td>@(item.Qty * item.Price)</td>
+                    @{ total = (item.Qty * item.Price) + total; }
+                </tr>
+            }
+        }
+    </table>
+    <input type="text" value=@total readonly class="form-control" />
+</div>
+

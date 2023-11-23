@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "New Invoice";
+    Layout = "";
+}
+
+<html>
+<head>
+    @{
+        Random random = new Random();
+    }
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/SweetAlert.js"></script>
+    <link rel="stylesheet" href="~/Content/Invoice.css?v=@random.NextDouble() * (1000000.0- 1.0) + 1.0;">
+</head>
+<body>
+    <div class="InvoiceFields">
+        <div class="InvoiceHead">
+            <label>Customer Name</label><input type="Text" name="Customer" id="Customer" maxlength="140" placeholder="Enter only characters" oninput="checkCustomerNameOnInput()" />
+            <img src="~/images/logo.jpg" alt="doesn’t exist" />
+        </div>
+
+        <fieldset class="CustomerInvoice">
+            <legend>Invoice Details</legend>
+
+            <div>
+                <label>Invoice Date</label><input type="date" name="InvoiceDate" id="InvoiceDate" readonly />
+            </div>
+            <div>
+                <label>Payment Method:</label>
+                <span class="payment1">
+                    <label id="PaymentMethodLabel">Credit</label><input type="radio" value="true" name="PaymentMethod" oninput="checkRadioOnInput()" />
+                </span>
+                <span class="payment2">
+                    <label id="PaymentMethodLabel2">Cash</label><input type="radio" value="false" name="PaymentMethod" oninput="checkRadioOnInput()" />
+                </span>
+            </div>
+            <div>
+                <label>Description</label><input type="Text" name="Description" id="Description" maxlength="450" />
+            </div>
+
+            <div>
+                <label>Total Invoice</label><input type="text" value="0.000" readonly name="TotalInvoice" id="TotalInvoice" />
+            </div>
+        </fieldset>
+        <fieldset class="CustomerItem">
+            <legend>Adding Items</legend>
+            <div>
+                <label>Item Name</label><input type="text" name="ItemName" id="ItemName" placeholder="Enter only characters" oninput="checkNameOnInput()" />
+            </div>
+            <div>
+                <label>Qty</label><input type="number" value="1" name="Qty" id="Qty" min="1" oninput="CalculateTotal()" />
+            </div>
+            <div>
+                <label>Price</label><input type="number" value="1" name="Price" id="Price" min="1" oninput="CalculateTotal()" />
+            </div>
+            <div>
+                <label>Total Item Price</label><input type="text" value="1.00" name="TotalItemPrice" id="TotalItemPrice" readonly />
+            </div>
+            <button id="BtnAddItem">Add item</button>
+        </fieldset>
+    </div>
+    <table border="1" id="itemTable">
+        <thead>
+            <tr>
+                <th>Item name</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total price item</th>
+                <th colspan="2">Option</th>
+            </tr>
+        </thead>
+    </table>
+    <button id="btnSave" >Save Invoice</button>
+    <button id="btnNew">New</button>
+    <a href="/Invoice/DiplayInvoices" class="btnDisplay">Display Invoices</a>
+
+    <script src="~/Scripts/Invoice.js"></script>
+</body>
+</html>
+
